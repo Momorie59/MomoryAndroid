@@ -1,0 +1,16 @@
+*.iml
+.gradle/
+/local.properties
+.idea/
+.DS_Store
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Signature de release — ne jamais committer la clé ni les mots de passe.
+*.jks
+*.keystore
+keystore.properties
+local.properties
