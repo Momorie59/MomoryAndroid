@@ -1,90 +1,111 @@
-# Momory — Application Android
+<div align="center">
 
-Application Android native (Kotlin + Jetpack Compose) pour discuter avec ton
-assistant IA personnel local, connectée à ton serveur Ollama sur ton réseau —
-aucune donnée n'est envoyée à un service tiers.
+<img src="assets/logo.svg" alt="Logo Momory" width="120" height="120">
 
-**Statut : V1, compilée et testée sur appareils réels.**
+# Momory Android
 
-## Fonctionnalités
+**Parle à ton IA locale, depuis ton téléphone.**
 
-- **Chat texte et vocal** — deux interfaces au choix (bouton de bascule rapide) :
-  - **Texte** — chat complet avec historique, par défaut.
-  - **Vocal** — gros bouton d'écoute, pensé pour une utilisation mains libres.
-- **Mode vocal continu** (désactivé par défaut, activable dans les réglages) —
-  écoute en arrière-plan et se déclenche en disant le nom de l'assistant, avec
-  reconnaissance tolérante aux petites erreurs de transcription.
-- **Nom de l'assistant personnalisable** — sert à la fois de mot-clé vocal et de
-  prénom utilisé par l'IA pour se présenter.
-- **Choix de la voix TTS** et **thèmes de couleurs** (Néon, Violet, Coucher de
-  soleil, Océan) dans les réglages.
-- **Historique des conversations** — sauvegarde locale, consultable et supprimable.
-- **Sélecteur de modèle** — liste les modèles installés sur le serveur Ollama.
-- **Recherche de lieux à proximité** ("trouve-moi un restaurant près de moi") —
-  utilise la position du téléphone et OpenStreetMap (gratuit, sans clé API) pour
-  donner des résultats réels au modèle plutôt que des réponses inventées.
-- **Configuration automatique** — entre l'IP du serveur et appuie sur "Auto" pour
-  récupérer host/port/modèle depuis le dashboard (comme `momory config --auto`
-  côté CLI).
-- **Streaming** — la réponse s'affiche au fur et à mesure.
+App Android native (chat + vocal complet) connectée à ton serveur
+[Momory · IA Local](https://github.com/Momorie59/ia-local-automatique) — aucune donnée
+n'envoie vers un cloud tiers, tout reste sur ton réseau.
 
-## Prérequis
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9-7F52FF?logo=kotlin&logoColor=white)](.)
+[![Android](https://img.shields.io/badge/android-8.0%2B-3DDC84?logo=android&logoColor=white)](.)
+[![Jetpack Compose](https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4?logo=jetpackcompose&logoColor=white)](.)
+[![License](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE.md)
 
-- [Android Studio](https://developer.android.com/studio) (gratuit)
-- Un téléphone Android ≥ 8.0 (API 26) ou un émulateur
-- Un serveur Ollama accessible sur le réseau local
+</div>
 
-## Ouvrir et compiler
+---
 
-1. Ouvre Android Studio → **Open** → sélectionne ce dossier
-2. Laisse Gradle synchroniser (première fois : peut prendre plusieurs minutes)
-3. Branche ton téléphone (mode développeur + débogage USB activés), ou lance un
-   émulateur
-4. Clique sur **Run ▶**
+## ✨ Ce que tu obtiens
 
-Pour un `.apk` installable directement (debug) :
-**Build → Build Bundle(s) / APK(s) → Build APK(s)**, fichier dans
-`app/build/outputs/apk/debug/`.
+| | |
+|---|---|
+| 💬 **Chat texte** | Discussion classique, réponses en streaming (affichage au fur et à mesure) |
+| 🎙️ **Vocal complet** | Tu parles, l'app transcrit, envoie à ton IA, et te lit la réponse à voix haute |
+| ⚙️ **Config automatique** | Entre juste l'IP de ton serveur — adresse, port et modèle se récupèrent tout seuls depuis le dashboard |
+| 🎨 **Identité visuelle Momory** | Même thème sombre / accent néon que le dashboard web |
+| 🔒 **100% local** | Aucun compte, aucune clé API, aucune donnée envoyée ailleurs qu'à ton propre serveur |
 
-Pour un build **release** signé, un `app/keystore.properties` (non versionné,
-voir `.gitignore`) doit exister avec les clés `storeFile`, `storePassword`,
-`keyAlias`, `keyPassword` pointant vers un keystore généré via `keytool`.
+---
 
-## Permissions demandées
+## 📲 Installation
 
-- **Micro** — pour la reconnaissance vocale (fonctionnalité native Android, aucun
-  service cloud tiers).
-- **Position** — uniquement pour la recherche de lieux à proximité ; optionnelle,
-  l'appli fonctionne sans.
+### Option rapide — APK prêt à l'emploi
 
-## Structure
+Télécharge **[`Momory.apk`](Momory.apk)** directement depuis ce dépôt (clique dessus →
+**Download**), transfère-le sur ton téléphone et installe-le.
+
+Android va probablement te demander d'autoriser **"Sources inconnues"** (ou "Installer des
+applications inconnues") pour l'app que tu utilises pour l'ouvrir (Fichiers, Chrome...) —
+c'est normal pour un APK qui ne vient pas du Play Store, accepte-le pour cette installation.
+
+### Option développeur — compiler soi-même
+
+Prérequis : [Android Studio](https://developer.android.com/studio)
+
+```bash
+git clone https://github.com/Momorie59/MomoryAndroid.git
+```
+
+Ouvre le dossier dans Android Studio, laisse Gradle synchroniser, puis **Run ▶** (sur un
+téléphone en mode développeur/débogage USB, ou un émulateur) — ou **Build → Build APK(s)**
+pour générer ton propre `.apk`.
+
+---
+
+## 🚀 Premier lancement
+
+1. L'app demande la permission micro — accepte-la (nécessaire pour le vocal)
+2. Une fenêtre de connexion s'ouvre automatiquement : tape l'IP de ton serveur
+   (ex: `192.168.1.16`) et appuie sur **Auto** — port et modèle se remplissent tout seuls
+3. Enregistre, et c'est prêt : tape ou appuie sur 🎙 pour parler
+
+---
+
+## 📂 Structure
 
 ```
 app/src/main/java/com/momory/app/
-  MainActivity.kt              Point d'entrée, permissions micro/position
-  ChatViewModel.kt              État de la conversation, appels réseau, TTS, logique vocale
+  MainActivity.kt            Point d'entrée, permissions micro
+  ChatViewModel.kt             État de la conversation, appels réseau, TTS
   data/
     OllamaModels.kt              Modèles de données (sérialisation JSON)
-    OllamaClient.kt               Client HTTP (chat streaming, config auto, liste des modèles)
-    SettingsStore.kt              Persistance des réglages (DataStore)
-    ConversationStore.kt          Persistance de l'historique des conversations (JSON local)
-  location/
-    LocationProvider.kt           Position du téléphone (API Android native)
-    PlacesClient.kt                Recherche de lieux via OpenStreetMap (Overpass API)
+    OllamaClient.kt               Client HTTP (chat streaming, config auto)
+    SettingsStore.kt              Persistance des réglages serveur
   voice/
     SpeechToText.kt                Reconnaissance vocale (API Android native)
-    TextToSpeechManager.kt         Synthèse vocale, choix de la voix
+    TextToSpeechManager.kt         Synthèse vocale
   ui/
-    ChatScreen.kt                  Écran texte (bulles, historique, réglages)
-    SimpleVoiceScreen.kt            Écran vocal (gros bouton, halo animé)
-    SettingsScreen.kt               Dialogue de configuration
-    HistoryDialog.kt                Liste des conversations précédentes
-    theme/                          Couleurs, thèmes, dégradés
+    ChatScreen.kt                   Écran principal (bulles, micro, envoi)
+    SettingsScreen.kt                Dialogue de configuration
+    theme/                           Couleurs/thème (identité visuelle Momory)
 ```
 
-## Réseau local (HTTP non chiffré)
+## 🔌 Ce qui n'est pas inclus (par choix)
 
-L'appli autorise le trafic HTTP en clair (`usesCleartextTraffic`) car le serveur
-Ollama tourne en local sur le réseau, sans certificat TLS — normal pour un usage
-domestique, mais ça veut dire : ne pas utiliser cette appli en dehors du réseau
-de confiance sans VPN.
+- Pas d'accès aux fichiers du téléphone (contrairement à `momory-cli` sur PC) —
+  uniquement de la discussion
+- Pas de mémoire longue durée (Qdrant) depuis l'app pour l'instant
+
+## 🌐 Réseau local
+
+L'app autorise le trafic HTTP non chiffré (`usesCleartextTraffic`) car ton serveur Ollama
+tourne en local sans certificat TLS — normal pour un usage domestique. N'utilise pas
+l'app en dehors de ton réseau de confiance sans VPN.
+
+## 🔗 Projet lié
+
+Le serveur (installeur + dashboard web + CLI) : **[Momorie59/ia-local-automatique](https://github.com/Momorie59/ia-local-automatique)**
+
+## 📜 Licence
+
+Voir [LICENSE.md](LICENSE.md).
+
+---
+
+<div align="center">
+<sub>Développé pour tourner entièrement en local — aucune donnée n'envoie vers un cloud tiers.</sub>
+</div>
