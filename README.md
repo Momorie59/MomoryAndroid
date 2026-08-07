@@ -35,7 +35,7 @@ n'envoie vers un cloud tiers, tout reste sur ton réseau.
 
 ### Option rapide — APK prêt à l'emploi
 
-Télécharge **[`Momory.apk`]((https://github.com/Momorie59/ia-local-automatique/blob/main/Momory.apk))** directement depuis ce dépôt (clique dessus →
+Télécharge **[`Momory.apk`](https://github.com/Momorie59/ia-local-automatique/blob/main/Momory.apk)** directement depuis ce dépôt (clique dessus →
 **Download**), transfère-le sur ton téléphone et installe-le.
 
 Android va probablement te demander d'autoriser **"Sources inconnues"** (ou "Installer des
